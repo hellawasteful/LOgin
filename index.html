@@ -13,19 +13,19 @@
 <body>
 
     <div class="wrapper">
-        <form action="">
+        <form id="loginForm">
             <h1>Login</h1>
             <div class="input-box">
-                <input type="text" placeholder="Username" required>
+                <input type="text" placeholder="Username" id="username" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
-                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Password" id="password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
 
             <div class="remember-forgot">
-                <label><input type="checkbox"> Remember me</label>
+                <label><input type="checkbox" id="rememberMe"> Remember me</label>
                 <a href="#">Forgot password?</a>
             </div>
 
@@ -36,6 +36,38 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var rememberMe = document.getElementById("rememberMe").checked;
+
+            if (rememberMe) {
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+            } else {
+                localStorage.removeItem("username");
+                localStorage.removeItem("password");
+            }
+
+            // Here you can perform further actions, like submitting the form to the server for authentication
+            console.log("Username and password stored in local storage.");
+        });
+
+        // Populate the form fields with stored values when the page loads
+        window.addEventListener("load", function() {
+            var storedUsername = localStorage.getItem("username");
+            var storedPassword = localStorage.getItem("password");
+            if (storedUsername && storedPassword) {
+                document.getElementById("username").value = storedUsername;
+                document.getElementById("password").value = storedPassword;
+                document.getElementById("rememberMe").checked = true;
+            }
+        });
+    </script>
 
 </body>
 
